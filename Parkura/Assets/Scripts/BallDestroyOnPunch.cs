@@ -16,7 +16,7 @@ public class BallDestroyOnPunch : MonoBehaviour
             
             float impactForce = collision.relativeVelocity.magnitude;
             Debug.Log("Impact force is: " + impactForce);
-            FindFirstObjectByType<VRLogger>().LogMessage("Impact force is: " + impactForce);
+            FindFirstObjectByType<VRLogger>().LogMessage("force", "Impact force is: " + impactForce);
             // If the impact was strong enough, destroy the ball
             if (impactForce >= punchThreshold)
             {

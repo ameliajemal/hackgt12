@@ -3,26 +3,31 @@ using System.IO;
 
 public class VRLogger : MonoBehaviour
 {
-    private string logFilePath;
+    private string basePath;
 
     void Awake()
     {
-        // Path to Downloads folder on Quest
-        string downloadsPath = Path.Combine("/sdcard/Download", "quest_game_log.txt");
-        logFilePath = downloadsPath;
+        // Base path to Downloads folder on Quest
+        basePath = "/sdcard/Download";
 
-        // Start session
-        File.AppendAllText(logFilePath, $"\n--- Session started at {System.DateTime.Now} ---\n");
+        // Start session log
+        AppendToFile("general", $"--- Session started at {System.DateTime.Now} ---");
     }
 
-    public void LogMessage(string message)
+    public void LogMessage(string tag, string message)
     {
-        string logEntry = $"[{System.DateTime.Now:HH:mm:ss}] {message}\n";
-        File.AppendAllText(logFilePath, logEntry);
+        string logEntry = $"[{System.DateTime.Now:HH:mm:ss}] {message}";
+        AppendToFile(tag, logEntry);
+    }
+
+    private void AppendToFile(string tag, string content)
+    {
+        string filePath = Path.Combine(basePath, $"quest_game_log_{tag}.txt");
+        File.AppendAllText(filePath, content + "\n");
     }
 
     void OnApplicationQuit()
     {
-        File.AppendAllText(logFilePath, $"--- Session ended at {System.DateTime.Now} ---\n");
+        AppendToFile("general", $"--- Session ended at {System.DateTime.Now} ---");
     }
 }
