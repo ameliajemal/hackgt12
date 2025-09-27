@@ -60,6 +60,18 @@ ExportedObj/
 *.pdb.meta
 *.mdb.meta
 
+# Ignore Firebase build artifacts and bundles
+Assets/Plugins/Firebase/*.bundle
+Assets/Plugins/Firebase/**/*.bundle
+
+# Ignore Android native libraries not part of SDK
+Assets/Plugins/Firebase/**/*.so
+
+# Optional: ignore editor cache files
+Assets/Plugins/Firebase/**/*.pdb
+Assets/Plugins/Firebase/**/*.mdb
+
+
 # Unity3D generated file on crash reports
 sysinfo.txt
 
