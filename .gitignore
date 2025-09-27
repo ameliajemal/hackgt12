@@ -180,3 +180,5 @@ Assets/Plugins/Firebase/**/*.meta
 *.mdb
 *.opendb
 *.VC.db
+Parkura/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-13_3_0.so
+Parkura/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-13_3_0.bundle
