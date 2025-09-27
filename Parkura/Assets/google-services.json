@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "186694906017",
+    "project_id": "parkura-52aaa",
+    "storage_bucket": "parkura-52aaa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186694906017:android:abdd9a29e742d6599380e0",
+        "android_client_info": {
+          "package_name": "com.parkura.parkura"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwYZgIgcPGJQI4TeNS_uTuHZBBb_cMqq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
