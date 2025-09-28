@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BallSpawner : MonoBehaviour
 {
@@ -8,6 +10,8 @@ public class BallSpawner : MonoBehaviour
     public float heightModifier = 0f;
     public float initialCount = 1f;
 
+    List<GameObject> activeballs = new List<GameObject>();
+
     private void Start()
     {
         // Spawn the first ball when the game starts
@@ -16,18 +20,34 @@ public class BallSpawner : MonoBehaviour
         //    SpawnBall();
         //}
         
+        activeballs.Add(FindFirstObjectByType<BallDestroyOnPunch>().gameObject);
+    }
+
+    public void DestroyAllBalls()
+    {
+        foreach (GameObject ball in activeballs)
+        {
+            Destroy(ball);
+        }
+        activeballs.Clear();
     }
 
 
 
     public void SpawnBall()
     {
+        if (PosLogger.TotalApples == 0)
+        {
+            FindFirstObjectByType<GameManager>().GameStart();
+        }
         PosLogger.TotalApples += 1;
         if (theBall == null)
         {
             Debug.LogWarning("No ball prefab assigned to BallSpawner!");
             return;
         }
+
+       
 
         // Generate a random point inside the unit sphere
         Vector3 randomPos = Random.insideUnitSphere;
@@ -46,5 +66,6 @@ public class BallSpawner : MonoBehaviour
         GameObject newBall = Instantiate(theBall, randomPos, Quaternion.identity);
         newBall.GetComponent<BallDestroyOnPunch>().isStartingBall = false;
         // Attach self-destruct listener so when this ball dies, a new one spawns
+        activeballs.Add(newBall);
     }
 }

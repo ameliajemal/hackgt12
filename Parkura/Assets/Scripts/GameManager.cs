@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,21 +22,29 @@ public class GameManager : MonoBehaviour
 
     public bool startImmediately = false;
 
+    public float timer = 0.0f;
+
     void Start()
     {
-        if (startImmediately)
-        {
-            GameStart();
-        }
+
         gameOverTextMeshPro = gameOverText.GetComponent<TextMeshProUGUI>();
         countdownText = countdownTextObject.GetComponent<TextMeshProUGUI>();
         remainingTime = gameDuration;
         countdownText.text = remainingTime.ToString("F0");
 
+        if (startImmediately)
+        {
+            GameStart();
+        }
     }
 
     public void GameStart()
     {
+        if (isGameRunning)
+        {
+            return;
+        }
+
         tipText.SetActive(false);
         background1.SetActive(false);
         background2.SetActive(true);
@@ -43,6 +52,8 @@ public class GameManager : MonoBehaviour
 
         remainingTime = gameDuration;
         isGameRunning = true;
+
+        PosLogger.startLogging = true;
 
         FindFirstObjectByType<BallSpawner>().SpawnBall();
         FindFirstObjectByType<BallSpawner>().SpawnBall();
@@ -70,11 +81,12 @@ public class GameManager : MonoBehaviour
 
     public void GameEnd()
     {
+        
         gameOverText.SetActive(true);
         countdownTextObject.SetActive(false);
         background1.SetActive(true);
         background2.SetActive(false);
-        gameOverTextMeshPro.text = "Game Over!\n\nYour score is: " + score;
+        gameOverTextMeshPro.text = "Game Over!\nYour score is: " + score;
 
         PosLogger pl;
         bool foundControllers = true;
@@ -85,12 +97,14 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        while (FindFirstObjectByType<BallDestroyOnPunch>() != null)
-        {
-            Destroy(FindFirstObjectByType<BallDestroyOnPunch>().gameObject);
-        }
-
+        //while (FindFirstObjectByType<BallDestroyOnPunch>() != null)
+        //{
+        //    Destroy(FindFirstObjectByType<BallDestroyOnPunch>().gameObject);
+        //}
+        PosLogger.startLogging = false;
         rightHand.GetComponent<PosLogger>().PrintSummary();
         leftHand.GetComponent<PosLogger>().PrintSummary();
+
+        FindFirstObjectByType<BallSpawner>().DestroyAllBalls();
     }
 }

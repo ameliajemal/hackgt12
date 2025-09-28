@@ -48,7 +48,7 @@ public class FirebaseTxtUploader : MonoBehaviour
             Permission.RequestUserPermission(Permission.ExternalStorageRead);
         }
 
-        dateTimeFolder = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        ResetDateTimeFolder();
         // Initialize Firebase
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -58,6 +58,11 @@ public class FirebaseTxtUploader : MonoBehaviour
             storage = FirebaseStorage.DefaultInstance;
             storageRef = storage.RootReference;
         });
+    }
+
+    void ResetDateTimeFolder()
+    {
+        dateTimeFolder = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
     }
 
     void Update()
