@@ -1,3 +1,7 @@
 AvgVelocity: 0.5
 Shaky: 3
 Points: 100
+VelocityData: [0.3,0.45,0.55,0.6,0.52,0.48]
+ShakeData: [2.1,3.5,3.8,2.9,4.2,3.0]
+ApplesPicked: 4
+TotalApples: 5

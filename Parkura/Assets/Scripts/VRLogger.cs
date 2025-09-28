@@ -8,10 +8,32 @@ public class VRLogger : MonoBehaviour
     void Awake()
     {
         // Base path to Downloads folder on Quest
-        basePath = "/sdcard/Download";
+        basePath = Application.persistentDataPath;
 
         // Start session log
-        AppendToFile("general", $"--- Session started at {System.DateTime.Now} ---");
+
+        if (Directory.Exists(basePath))
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(basePath);
+                foreach (string file in files)
+                {
+                    File.Delete(file);
+                }
+                Debug.Log($"All files deleted in: {basePath}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to delete files: {e.Message}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Directory does not exist: {basePath}");
+        }
+
+        OverwriteFile("general", $"--- Session started at {System.DateTime.Now} ---");
     }
 
     public void LogMessage(string tag, string message)
@@ -20,10 +42,30 @@ public class VRLogger : MonoBehaviour
         AppendToFile(tag, logEntry);
     }
 
+    private void OverwriteFile(string tag, string content)
+    {
+        string filePath = Path.Combine(basePath, $"quest_game_log_{tag}.txt");
+        try
+        {
+            File.WriteAllText(filePath, content + "\n"); // replaces file contents
+        }
+        catch (IOException e)
+        {
+            Debug.LogError($"Failed to write log to {filePath}: {e.Message}");
+        }
+    }
+
     private void AppendToFile(string tag, string content)
     {
         string filePath = Path.Combine(basePath, $"quest_game_log_{tag}.txt");
-        File.AppendAllText(filePath, content + "\n");
+        try
+        {
+            File.AppendAllText(filePath, content + "\n");
+        }
+        catch (IOException e)
+        {
+            Debug.LogError($"Failed to write log to {filePath}: {e.Message}");
+        }
     }
 
     void OnApplicationQuit()

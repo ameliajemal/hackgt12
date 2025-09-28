@@ -3,13 +3,16 @@ using UnityEngine;
 public class BallDestroyOnPunch : MonoBehaviour
 {
     public float punchThreshold = 2f; // tweak this until it feels right
+    public bool isStartingBall = false;
 
     private void OnCollisionEnter(Collision collision)
     {
         // Check if the thing that hit the ball has a Rigidbody
         Rigidbody rb = collision.rigidbody;
-        
-        
+
+        FindFirstObjectByType<BallSpawner>().SpawnBall();
+        FindFirstObjectByType<GameManager>().score += 1;
+        PosLogger.ApplesPicked += 1;
         if (rb != null)
         {
             // Measure the impact speed (relative velocity)
@@ -23,6 +26,14 @@ public class BallDestroyOnPunch : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        //Destroy(gameObject);
+        
+        //FindFirstObjectByType<VRLogger>().LogMessage("force", "Impact force was too low to destroy the ball.");
+        if (isStartingBall)
+        {
+            FindFirstObjectByType<GameManager>().GameStart();
+        }
+        Destroy(gameObject);
+
+        
     }
 }

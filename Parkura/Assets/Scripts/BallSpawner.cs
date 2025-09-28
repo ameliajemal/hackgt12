@@ -11,15 +11,18 @@ public class BallSpawner : MonoBehaviour
     private void Start()
     {
         // Spawn the first ball when the game starts
-        for (int i = 0; i < initialCount; i++)
-        {
-            SpawnBall();
-        }
+        //for (int i = 0; i < initialCount; i++)
+        //{
+        //    SpawnBall();
+        //}
         
     }
 
+
+
     public void SpawnBall()
     {
+        PosLogger.TotalApples += 1;
         if (theBall == null)
         {
             Debug.LogWarning("No ball prefab assigned to BallSpawner!");
@@ -41,23 +44,7 @@ public class BallSpawner : MonoBehaviour
 
         // Instantiate new ball
         GameObject newBall = Instantiate(theBall, randomPos, Quaternion.identity);
-
+        newBall.GetComponent<BallDestroyOnPunch>().isStartingBall = false;
         // Attach self-destruct listener so when this ball dies, a new one spawns
-        BallDestroyNotifier notifier = newBall.AddComponent<BallDestroyNotifier>();
-        notifier.spawner = this;
-    }
-}
-
-public class BallDestroyNotifier : MonoBehaviour
-{
-    [HideInInspector] public BallSpawner spawner;
-
-    private void OnDestroy()
-    {
-        if (spawner != null && Application.isPlaying)
-        {
-            // Delay by one frame so Destroy() completes
-            spawner.Invoke(nameof(spawner.SpawnBall), 0.05f);
-        }
     }
 }
