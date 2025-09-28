@@ -11,7 +11,6 @@ const Navbar = styled.nav`
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 `;
 
-// Clickable logo (for logged-out state)
 const LogoLink = styled(Link)`
   font-size: 1.5rem;
   font-weight: 700;
@@ -19,7 +18,6 @@ const LogoLink = styled(Link)`
   text-decoration: none;
 `;
 
-// Plain text logo (for logged-in state)
 const LogoText = styled.span`
   font-size: 1.5rem;
   font-weight: 700;
@@ -46,6 +44,7 @@ const NavButton = styled.button`
   border: none;
   font-weight: 500;
   color: #333;
+  cursor: pointer;
 
   &:hover {
     color: #7ac77d;
@@ -63,17 +62,18 @@ export default function TopBar() {
 
   return (
     <Navbar>
-      {loggedIn ? (
-        <LogoText>Parkura</LogoText>
-      ) : (
-        <LogoLink to="/">Parkura</LogoLink>
-      )}
+      {loggedIn
+        ? <LogoText>Parkura</LogoText>
+        : <LogoLink to="/">Parkura</LogoLink>
+      }
 
       <NavLinks>
         {!loggedIn ? (
           <>
             <NavItem to="/about">About Us</NavItem>
             <NavItem to="/product">Our Product</NavItem>
+            <NavItem to="/login">Login</NavItem>
+            <NavItem to="/signup">Sign Up</NavItem>
           </>
         ) : (
           <>
@@ -85,4 +85,3 @@ export default function TopBar() {
     </Navbar>
   );
 }
-

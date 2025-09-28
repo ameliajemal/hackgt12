@@ -1,3 +1,4 @@
+// src/Login.js
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -48,12 +49,35 @@ const Button = styled.button`
   }
 `;
 
+const Error = styled.p`
+  color: red;
+  margin-bottom: 1rem;
+`;
+
 export default function Login() {
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError]     = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
+
+    const accounts = JSON.parse(localStorage.getItem('accounts') || '{}');
+    const storedPwd = accounts[username];
+
+    if (!storedPwd) {
+      setError('Username not found');
+      return;
+    }
+
+    if (storedPwd !== password) {
+      setError('Incorrect password');
+      return;
+    }
+
+    // success!
     localStorage.setItem('therapist', username);
     navigate('/home');
   };
@@ -62,13 +86,26 @@ export default function Login() {
     <Container>
       <Card>
         <Title>Therapist Login</Title>
+
+        {error && <Error>{error}</Error>}
+
         <form onSubmit={handleSubmit}>
           <Input
             type="text"
             placeholder="Username"
             value={username}
             onChange={e => setUsername(e.target.value)}
+            required
           />
+
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+
           <Button type="submit">Login</Button>
         </form>
       </Card>

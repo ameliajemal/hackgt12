@@ -43,14 +43,16 @@ const Subtitle = styled.p`
   color: #555;
 `;
 
+// CTA button now uses Parkura green
 const CTAButton = styled(motion.button)`
-  background-color: var(--color-primary);
+  background-color: #7ac77d;
   color: white;
   padding: 1rem 2.5rem;
   font-size: 1.1rem;
   font-weight: 600;
   border-radius: 8px;
   border: none;
+  cursor: pointer;
 `;
 
 export default function LandingPage() {
@@ -70,7 +72,8 @@ export default function LandingPage() {
       >
         <Title>Parkura</Title>
         <Subtitle>
-          Immersive VR therapy for Parkinson’s patients. Empowering therapists with real-time data.
+          Immersive VR therapy for Parkinson’s patients. Empowering therapists
+          with real-time data.
         </Subtitle>
         <CTAButton
           whileHover={{ scale: 1.05, boxShadow: '0px 8px 20px rgba(0,0,0,0.15)' }}
